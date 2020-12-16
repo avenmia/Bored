@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Bored.GameService.GameServiceAPI
 {
-    public class GameServiceHub : Hub<IClient>
+    public class GameServiceHub : Hub<IGameClient>
     {
-        public Task SendMessage(IGameMessage message)
+        public Task SendMessage(GameMessage message)
         {
             return Clients.All.ReceiveMessage(message);
         }
