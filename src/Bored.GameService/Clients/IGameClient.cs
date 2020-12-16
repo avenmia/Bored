@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Bored.GameService.Clients
 {
-    public interface IClient
+    public interface IGameClient
     {
-        Task ReceiveMessage(IGameMessage message);
+        Task ReceiveMessage(GameMessage message);
     }
 }
