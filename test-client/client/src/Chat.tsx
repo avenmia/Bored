@@ -47,7 +47,7 @@ const Chat = () => {
             message: message
         };
 
-        if (connection?.start()) {
+        if (connection?.state === "Connected") {
             try {
                 await connection.send('SendMessage', chatMessage);
             }
