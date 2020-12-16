@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Bored.GameService.Clients;
+using Bored.GameService.Models;
+using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace Bored.GameService.GameServiceAPI
 {
-    public class GameServiceHub : Hub
+    public class GameServiceHub : Hub<IClient>
     {
-        public Task SendMessage(string user, string message)
+        public Task SendMessage(IGameMessage message)
         {
-            return Clients.All.SendAsync("ReceiveMessage", user, message);
+            return Clients.All.ReceiveMessage(message);
         }
     }
 }
