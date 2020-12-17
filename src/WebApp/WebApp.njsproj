@@ -16,8 +16,8 @@
     <StartWebBrowser>True</StartWebBrowser>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
     <ScriptArguments>start</ScriptArguments>
-    <NodejsPort>3000</NodejsPort>
-    <LaunchUrl>http://localhost:3000/</LaunchUrl>
+    <NodejsPort>8080</NodejsPort>
+    <LaunchUrl>http://localhost:8080/</LaunchUrl>
     <JavaScriptTestRoot>src\</JavaScriptTestRoot>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
@@ -27,16 +27,12 @@
     <Content Include="package.json" />
     <None Include="tsconfig.json" />
     <Content Include="README.md" />
-    <Content Include="public\robots.txt" />
-    <Content Include="public\index.html" />
-    <Content Include="public\favicon.ico" />
-    <Content Include="src\App.css" />
-    <Content Include="src\index.css" />
-    <Content Include="src\logo.svg" />
-    <None Include="src\App.test.tsx" />
-    <None Include="src\App.tsx" />
-    <None Include="src\index.tsx" />
-    <None Include="types\static.d.ts" />
+    <Content Include="public\**\*.*" />
+    <Content Include="src\**\*.css" />
+    <Content Include="src\**\*.svg" />
+    <None Include="src\**\*.tsx" />
+    <None Include="src\**\*.ts" />
+    <None Include="types\**\*.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public" />
