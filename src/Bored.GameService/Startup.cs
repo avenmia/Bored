@@ -1,3 +1,4 @@
+using Bored.GameService.GameServiceAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,18 @@ namespace Bored.GameService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("ClientPermission", policy =>
+                {
+                    policy.AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .WithOrigins("http://localhost:3000")
+                          .AllowCredentials();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,12 +41,11 @@ namespace Bored.GameService
 
             app.UseRouting();
 
+            app.UseCors("ClientPermission");
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapHub<GameServiceHub>("/gameservicehub");
             });
         }
     }
