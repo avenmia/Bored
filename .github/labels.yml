@@ -7,8 +7,8 @@
   name: ":chess_pawn: game service"
   color: "ffcb47"
   description: ""
-- # automerge
-  name: ":bell: automerge"
+- # game logic
+  name: ":bell: game logic"
   color: "8f4fbc"
   description: ""
 - # bot
