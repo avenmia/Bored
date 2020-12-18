@@ -1,4 +1,5 @@
 ﻿using Bored.Common;
+using Bored.Common.Models;
 
 namespace Bored.Game.TicTacToe
 {
