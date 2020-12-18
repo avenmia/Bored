@@ -1,4 +1,4 @@
-name: Build and test dotnet solution
+name: Build and test projects
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  build-test-dotnet:
     runs-on: ubuntu-latest
     name: Build and test dotnet solution
     env:
@@ -22,3 +22,18 @@ jobs:
           dotnet-version: '5.0.100'
       - run: dotnet build
       - run: dotnet test
+  build-test-client:
+    runs-on: ubuntu-latest
+    name: Build and test client app
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - run: npm install
+        working-directory: ./src/WebApp
+      - run: npm run build
+        working-directory: ./src/WebApp
+      - run: npm run test
+        working-directory: ./src/WebApp
