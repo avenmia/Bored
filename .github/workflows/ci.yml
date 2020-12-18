@@ -16,9 +16,11 @@ jobs:
           dotnet-version: '5.0.100'
       - run: dotnet build
       - run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
-      - run: npx codecov
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          flags: dotnet
   build-test-client:
     runs-on: ubuntu-latest
     name: Build and test client app
@@ -34,6 +36,8 @@ jobs:
         working-directory: ./src/WebApp
       - run: npm run coverage
         working-directory: ./src/WebApp
-      - run: npx codecov
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          flags: webapp
