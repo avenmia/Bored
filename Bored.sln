@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Common.Test", "test\B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Game.TicTacToe", "src\Bored.Game.TicTacToe\Bored.Game.TicTacToe.csproj", "{CD9226A8-6A9B-4D8F-BD9D-3D8745A2E898}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "WebApp", "src\WebApp\WebApp.njsproj", "{39327F49-6821-41FF-BCE4-8A6EC40C8713}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Game.TicTacToe.Test", "test\Bored.Game.TicTacToe.Test\Bored.Game.TicTacToe.Test.csproj", "{36425612-3F1A-4713-855F-787D680E22DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{CD9226A8-6A9B-4D8F-BD9D-3D8745A2E898}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD9226A8-6A9B-4D8F-BD9D-3D8745A2E898}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD9226A8-6A9B-4D8F-BD9D-3D8745A2E898}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39327F49-6821-41FF-BCE4-8A6EC40C8713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39327F49-6821-41FF-BCE4-8A6EC40C8713}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39327F49-6821-41FF-BCE4-8A6EC40C8713}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39327F49-6821-41FF-BCE4-8A6EC40C8713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36425612-3F1A-4713-855F-787D680E22DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36425612-3F1A-4713-855F-787D680E22DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36425612-3F1A-4713-855F-787D680E22DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36425612-3F1A-4713-855F-787D680E22DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
