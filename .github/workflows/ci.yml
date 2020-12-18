@@ -12,6 +12,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build and test dotnet solution
+    env:
+      DOTNET_NOLOGO: true
     steps:
       - uses: actions/checkout@v2
       - name: Setup dotnet
