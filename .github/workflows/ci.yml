@@ -17,6 +17,6 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.x'
+          dotnet-version: '5.0.100'
       - run: dotnet build ./Board.sln
       - run: dotnet test ./Board.sln
