@@ -10,7 +10,5 @@ namespace Bored.GameService.GameSession
         void GetGameState();
 
         void AddGameState();
-
-        void ReturnGameState();
     }
 }

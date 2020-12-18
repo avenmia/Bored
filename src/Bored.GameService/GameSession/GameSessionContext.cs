@@ -33,11 +33,6 @@ namespace Bored.GameService.GameSession
             throw new NotImplementedException();
         }
 
-        public void ReturnGameState()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
             muxer.Dispose();
