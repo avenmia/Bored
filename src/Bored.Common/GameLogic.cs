@@ -1,14 +1,14 @@
 ﻿namespace Bored.Common
 {
-    public abstract class GameLogic<State, Move>
+    public abstract class GameLogic<GameState, GameMove>
     {
-        public State GameState { get; private set; }
+        public GameState State { get; protected set; }
 
-        public GameLogic(State GameState)
+        public GameLogic(GameState _State)
         {
-            this.GameState = GameState;
+            this.State = _State;
         }
 
-        public abstract State GetNextState(State previousState, Move move);
+        public abstract GameState? MakeMove(GameMove Move);
     }
 }

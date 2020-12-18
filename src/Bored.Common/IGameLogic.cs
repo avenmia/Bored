@@ -1,4 +1,3 @@
 ﻿namespace Bored.Common
 {
-   
 }
