@@ -1,4 +1,6 @@
-﻿namespace Bored.Game.TicTacToe
+﻿using Bored.Common.Models;
+
+namespace Bored.Game.TicTacToe
 {
     public class TicTacToeState
     {
