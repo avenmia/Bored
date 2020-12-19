@@ -9,14 +9,5 @@ namespace Bored.Common
 {
     public interface IGameState
     {
-        string GameID { get; set; }
-
-        IPlayer? Winner { get; set; }
-
-        IBoard Board { get; set; }
-
-        IPlayer Turn { get; set; }
-
-        GameStatus Status { get; set; }
     }
 }
