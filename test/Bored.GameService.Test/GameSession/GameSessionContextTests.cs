@@ -24,12 +24,11 @@ namespace Bored.GameService.Test.GameSession
             multiplexerMock.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(dbMock.Object);
         }
 
-        [Test]
-        public void GetGameStateTest()
+        [TestCase("game1", "Here is the state")]
+        [TestCase(null, null)]
+        public void GetGameStateTest(string gameID, string state)
         {
             // Arrange
-            string gameID = "game1";
-            string state = "Here is the state";
             dbMock.Setup(d => d.StringGet(gameID, It.IsAny<CommandFlags>())).Returns(state);
             GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
 
@@ -39,7 +38,21 @@ namespace Bored.GameService.Test.GameSession
             // Assert
             Assert.AreEqual(state, result);
             dbMock.Verify(mock => mock.StringGet(gameID, It.IsAny<CommandFlags>()), Times.Once());
+        }
 
+        [Test]
+        public void GetNonExistantGameStateTest()
+        {
+            // Arrange
+            string gameID = "game2";
+            GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
+
+            // Act
+            var result = context.GetGameState(gameID);
+
+            // Assert
+            Assert.AreEqual(null, result);
+            dbMock.Verify(mock => mock.StringGet(gameID, It.IsAny<CommandFlags>()), Times.Once());
         }
 
         [Test]

@@ -26,7 +26,7 @@ namespace Bored.GameService.GameSession
 
         public void AddGameState()
         {
-            // conn.StringSet("foo", "Here's game state");
+            conn.StringSet("foo", "Here's game state");
             throw new NotImplementedException();
         }
     }
