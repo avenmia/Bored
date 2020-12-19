@@ -7,35 +7,27 @@ using StackExchange.Redis;
 
 namespace Bored.GameService.GameSession
 {
-    public class GameSessionContext : IGameSession, IDisposable
+    public class GameSessionContext : IGameSessionContext
     {
-        readonly ConnectionMultiplexer muxer;
         private IDatabase conn;
+        private readonly IConnectionMultiplexer _muxer;
 
         
-        public GameSessionContext()
+        public GameSessionContext(IConnectionMultiplexer muxer)
         {
-            string connectionString = Startup.Configuration.GetConnectionString("redis");
-            muxer = ConnectionMultiplexer.Connect(connectionString);
-            //conn = muxer.GetDatabase();
-            //conn.StringSet("foo", "bar");
-            //var value = conn.StringGet("foo");
-            //Console.WriteLine(value);
+            _muxer = muxer;
         }
 
-        public void GetGameState()
+        public string GetGameState()
         {
-            throw new NotImplementedException();
+            conn = _muxer.GetDatabase();
+            conn.StringSet("foo", "Here's game state");
+            return conn.StringGet("foo");
         }
 
         public void AddGameState()
         {
             throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            muxer.Dispose();
         }
     }
 }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Bored.GameService.GameSession
 {
-    public interface IGameSession
+    public interface IGameSessionContext
     {
-        void GetGameState();
+        string GetGameState();
 
         void AddGameState();
     }
