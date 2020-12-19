@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace Bored.GameService.GameSession
@@ -24,10 +25,9 @@ namespace Bored.GameService.GameSession
             return _db.StringGet(gameID);
         }
 
-        public void AddGameState()
+        public object AddGameState(string gameID, object state)
         {
-            _db.StringSet("foo", "Here's game state");
-            throw new NotImplementedException();
+            return _db.StringSet(gameID, JsonConvert.SerializeObject(state)) ? state : null;
         }
     }
 }

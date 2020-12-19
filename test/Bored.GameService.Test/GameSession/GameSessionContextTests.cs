@@ -1,5 +1,6 @@
 ﻿using Bored.GameService.GameSession;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using StackExchange.Redis;
 using System;
@@ -24,7 +25,7 @@ namespace Bored.GameService.Test.GameSession
             multiplexerMock.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(dbMock.Object);
         }
 
-        [TestCase("game1", "Here is the state")]
+        [TestCase("game", "Here is the state")]
         [TestCase(null, null)]
         public void GetGameStateTest(string gameID, string state)
         {
@@ -44,7 +45,7 @@ namespace Bored.GameService.Test.GameSession
         public void GetNonExistantGameStateTest()
         {
             // Arrange
-            string gameID = "game2";
+            string gameID = "game";
             GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
 
             // Act
@@ -58,7 +59,37 @@ namespace Bored.GameService.Test.GameSession
         [Test]
         public void AddGameStateTest()
         {
+            // Arrange
+            string gameID = "game";
+            object state = new { Winner = "Player 1", Board = new int[3, 3] { { 1, -1, 0 }, { 1, -1, 0 }, { 1, 0, -1 } } };
+            string serializedState = JsonConvert.SerializeObject(state);
+            dbMock.Setup(d => d.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None)).Returns(true);
+            GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
 
+            // Act
+            var result = context.AddGameState(gameID, state);
+
+            // Assert
+            Assert.AreEqual(state, result);
+            dbMock.Verify(mock => mock.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None), Times.Once());
+        }
+
+        [Test]
+        public void FailedAddGameStateTest()
+        {
+            // Arrange
+            string gameID = "game";
+            object state = new { Winner = "Player 1", Board = new int[3, 3] { { 1, -1, 0 }, { 1, -1, 0 }, { 1, 0, -1 } } };
+            string serializedState = JsonConvert.SerializeObject(state);
+            dbMock.Setup(d => d.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None)).Returns(false);
+            GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
+
+            // Act
+            var result = context.AddGameState(gameID, state);
+
+            // Assert
+            Assert.AreEqual(null, result);
+            dbMock.Verify(mock => mock.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None), Times.Once());
         }
     }
 }
