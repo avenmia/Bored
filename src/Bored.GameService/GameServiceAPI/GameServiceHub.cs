@@ -17,7 +17,7 @@ namespace Bored.GameService.GameServiceAPI
 
         public Task SendMessage(GameMessage message)
         {
-            var state = _context.GetGameState();
+            var state = _context.GetGameState(message.GameID);
             Console.WriteLine(state);
                 // var gameState = context.GetGameState(context);
                 // context.AddGameState(gameState);

@@ -16,17 +16,17 @@ namespace Bored.GameService.GameSession
         public GameSessionContext(IConnectionMultiplexer muxer)
         {
             _muxer = muxer;
+            conn = _muxer.GetDatabase();
         }
 
-        public string GetGameState()
+        public string GetGameState(string gameID)
         {
-            conn = _muxer.GetDatabase();
-            conn.StringSet("foo", "Here's game state");
-            return conn.StringGet("foo");
+            return conn.StringGet(gameID);
         }
 
         public void AddGameState()
         {
+            // conn.StringSet("foo", "Here's game state");
             throw new NotImplementedException();
         }
     }

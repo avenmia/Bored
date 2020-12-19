@@ -7,7 +7,7 @@ namespace Bored.GameService.GameSession
 {
     public interface IGameSessionContext
     {
-        string GetGameState();
+        string GetGameState(string gameID);
 
         void AddGameState();
     }
