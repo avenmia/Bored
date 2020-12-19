@@ -9,24 +9,24 @@ namespace Bored.GameService.GameSession
 {
     public class GameSessionContext : IGameSessionContext
     {
-        private IDatabase conn;
+        private IDatabase _db;
         private readonly IConnectionMultiplexer _muxer;
 
         
         public GameSessionContext(IConnectionMultiplexer muxer)
         {
             _muxer = muxer;
-            conn = _muxer.GetDatabase();
+            _db = _muxer.GetDatabase();
         }
 
         public string GetGameState(string gameID)
         {
-            return conn.StringGet(gameID);
+            return _db.StringGet(gameID);
         }
 
         public void AddGameState()
         {
-            conn.StringSet("foo", "Here's game state");
+            _db.StringSet("foo", "Here's game state");
             throw new NotImplementedException();
         }
     }
