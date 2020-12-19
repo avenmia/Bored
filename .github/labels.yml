@@ -1,4 +1,8 @@
 # more info https://github.com/crazy-max/ghaction-github-labeler
+- # tests
+  name: ":test_tube: tests"
+  color: "00b294"
+  description: ""
 - # api
   name: ":spider_web: api"
   color: "9ac2c9"
