@@ -7,8 +7,8 @@
 
         public TicTacToeMove(TicTacToePlayer _player, (byte row, byte col) _cell)
         {
-            this.Player = _player;
-            this.Cell = _cell;
+            Player = _player;
+            Cell = _cell;
         }
     }
 }
