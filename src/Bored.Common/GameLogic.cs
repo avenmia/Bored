@@ -6,7 +6,7 @@
 
         public GameLogic(GameState _State)
         {
-            this.State = _State;
+            State = _State;
         }
 
         public abstract GameState? MakeMove(GameMove Move);
