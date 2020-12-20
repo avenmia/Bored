@@ -19,8 +19,6 @@ namespace Bored.GameService.GameServiceAPI
         {
             var state = _context.GetGameState(message.GameID);
             Console.WriteLine(state);
-                // var gameState = context.GetGameState(context);
-                // context.AddGameState(gameState);
             return Clients.All.ReceiveMessage(message);
         }
     }
