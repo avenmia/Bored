@@ -1,6 +1,9 @@
-﻿namespace Bored.Game.TicTacToe
+﻿using Bored.Common;
+using Bored.Common.Models;
+
+namespace Bored.Game.TicTacToe
 {
-    public class TicTacToeState
+    public class TicTacToeState : IGameState
     {
         public TicTacToePlayer? Winner = null;
         public TicTacToePlayer?[,] Cells = new TicTacToePlayer?[3, 3];
