@@ -3,14 +3,16 @@ using Bored.Common.Models;
 
 namespace Bored.Game.TicTacToe
 {
-    public class TicTacToe : GameLogic<TicTacToeState, TicTacToeMove>
+    public class TicTacToe : GameLogic<TicTacToeState, TicTacToeMove>, IGameLogic
     {
         public TicTacToe(TicTacToeState GameState) : base(GameState)
         {
         }
 
-        public override TicTacToeState? MakeMove(TicTacToeMove move)
+        public override IGameState? MakeMove(IGameMove gameMove)
         {
+            TicTacToeMove move = gameMove as TicTacToeMove;
+
             if (IsValidMove(move.Player, move.Cell))
             {
                 State.Cells[move.Cell.row, move.Cell.col] = State.Turn;

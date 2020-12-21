@@ -44,7 +44,7 @@ namespace Bored.Game.TicTacToe.Test
             var game = new TicTacToe(State);
             Assert.IsNull(game.State.Winner);
             var newState = game.MakeMove(new TicTacToeMove(TicTacToePlayer.X, (0, 2)));
-            Assert.AreEqual(newState.Winner, TicTacToePlayer.X);
+            Assert.AreEqual(((TicTacToeState)newState).Winner, TicTacToePlayer.X);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace Bored.Game.TicTacToe.Test
             var game = new TicTacToe(State);
             Assert.IsNull(game.State.Winner);
             var newState = game.MakeMove(new TicTacToeMove(TicTacToePlayer.O, (2, 1)));
-            Assert.AreEqual(newState.Winner, TicTacToePlayer.O);
+            Assert.AreEqual(((TicTacToeState)newState).Winner, TicTacToePlayer.O);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Bored.Game.TicTacToe.Test
             var game = new TicTacToe(State);
             Assert.IsNull(game.State.Winner);
             var newState = game.MakeMove(new TicTacToeMove(TicTacToePlayer.X, (2, 2)));
-            Assert.AreEqual(newState.Winner, TicTacToePlayer.X);
+            Assert.AreEqual(((TicTacToeState)newState).Winner, TicTacToePlayer.X);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace Bored.Game.TicTacToe.Test
             var game = new TicTacToe(State);
             Assert.IsNull(game.State.Winner);
             var newState = game.MakeMove(new TicTacToeMove(TicTacToePlayer.X, (0, 2)));
-            Assert.AreEqual(newState.Winner, TicTacToePlayer.X);
+            Assert.AreEqual(((TicTacToeState)newState).Winner, TicTacToePlayer.X);
         }
 
         [Test]

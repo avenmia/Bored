@@ -1,6 +1,8 @@
-﻿namespace Bored.Game.TicTacToe
+﻿using Bored.Common;
+
+namespace Bored.Game.TicTacToe
 {
-    public class TicTacToeMove
+    public class TicTacToeMove : IGameMove
     {
         public TicTacToePlayer Player;
         public (byte row, byte col) Cell;
