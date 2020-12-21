@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import Cell from "./Cell";
 import "./styles/Board.css";
 
-const Board = () => 
+const Board = ({sendState, setBoard} : any) => 
 {
 
   const [player, setPlayer] = useState('X')
 
-
   function updateBoard()
   {
     player === 'X' ? setPlayer('O') : setPlayer('X')
+    sendState();
     return player;
   }
 

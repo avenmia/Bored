@@ -38,7 +38,7 @@ namespace Bored.GameService
                 {
                     policy.AllowAnyHeader()
                           .AllowAnyMethod()
-                          .WithOrigins("http://localhost:3000")
+                          .WithOrigins("http://localhost:8080")
                           .AllowCredentials();
                 });
             });
