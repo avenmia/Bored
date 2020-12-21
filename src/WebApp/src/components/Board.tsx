@@ -17,15 +17,15 @@ const Board = ({sendState, setBoard} : any) =>
 
   return (
     <div className="grid-container">
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
-      <Cell className="grid-item" value={player} updateBoard={() => updateBoard()} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
+      <Cell className="grid-item" value={player} updateBoard={updateBoard} />
     </div>
   )
 }

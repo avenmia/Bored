@@ -11,14 +11,20 @@ interface TicTacToeState
   TotalWins: Number
 }
 
-interface IGameState
+interface IGameState<T>
 {
-  GameType: String
 }
+
+// interface GameMessage
+// {
+//   GameState: IGameState<unknown>,
+//   GameType: string
+// }
 
 interface GameMessage
 {
-  GameState: string
+  GameState: any,
+  GameType: string
 }
 
 
@@ -59,12 +65,16 @@ const TicTacToe = () =>
     //     TotalWins: 5
     // };
 
-    const chatMessage: IGameState = {
-      GameType: "TestState"
+    const chatMessage: IGameState<any> = {
+      GameID: "game1",
+      Winner: "Charlie Kelly",
+      Turn: "Over",
+      TotalWins: 5
     }
 
     const gameMessage: GameMessage = {
-      GameState: JSON.stringify(chatMessage)
+      GameState: JSON.stringify(chatMessage),
+      GameType: "TestState"
     }
 
     if (connection?.state === "Connected") {

@@ -9,6 +9,5 @@ namespace Bored.Common
 {
     public interface IGameState
     {
-        string GameType { get; set; }
     }
 }

@@ -9,7 +9,18 @@ namespace Bored.Game.TicTacToe
 {
     public class TestState : IGameState
     {
-        public string GameType { get; set; } = "TestState";
+        public TestState()
+        {
+
+        }
+
+        public TestState(dynamic obj)
+        {
+            GameID = obj.GameID;
+            TotalWins = obj.TotalWins;
+            Winner = obj.Winner;
+            Turn = obj.Turn;
+        }
 
         public string GameID { get; set; }
 

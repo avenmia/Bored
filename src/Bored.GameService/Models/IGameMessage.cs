@@ -9,7 +9,8 @@ namespace Bored.GameService.Models
 {
     public interface IGameMessage
     {
-        [JsonProperty]
+        string GameType { get; set; }
+
         string GameState { get; set; }
     }
 }
