@@ -5,6 +5,7 @@ namespace Bored.Game.TicTacToe
 {
     public class TicTacToeState : IGameState
     {
+        public string GameType { get; set; } = "TicTacToeState";
         public TicTacToePlayer? Winner = null;
         public TicTacToePlayer?[,] Cells = new TicTacToePlayer?[3, 3];
         public TicTacToePlayer Turn = TicTacToePlayer.X;
