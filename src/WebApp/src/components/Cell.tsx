@@ -7,8 +7,11 @@ const Cell = ({value, updateBoard} : any) =>
 
   function setCellValue(v: SyntheticEvent)
   {
-    updateBoard();
-    setPlayer(value);
+    if (player === ' ')
+    {
+      setPlayer(value);
+      updateBoard();
+    }
   }
 
   return (
