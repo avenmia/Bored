@@ -24,28 +24,40 @@ namespace Bored.GameService.GameServiceAPI
 
         public Task SendMessage(GameMessage message)
         {
-            // Need a way to deserialize the game state to the resulting game type
-            Assembly a = Assembly.Load("Bored.Game.TicTacToe");
-            var resultingGameType = a.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
-
-            var gameStateType = message.GameState.GetType();
-
-            var deserialize = JsonConvert.DeserializeObject<TestState>(message.GameState);
-
-            // This is slow
-            var result = Activator.CreateInstance(resultingGameType, new object[] { message.GameState });
-            var properties = result.GetType().GetProperties();
-
-            //var jElement = (JsonElement)message.GameState;
-            
-            //foreach(var prop in properties)
-            //{
-            //    JsonElement pResult;
-            //    var p = jElement.GetProperty(prop.Name);
-            //    var strResult = p.GetString();
-            //}
-
+            // var gameMessage = DeserializeMessage(message);
+            var state = _context.GetGameState(message.GameID);
+            if (state == null)
+            {
+                state = InitializeGame(message);
+                var result = _context.AddGameState(message.GameID, state);
+                
+                // TODO: Remove this
+                return Clients.All.ReceiveMessage(message);
+            }
+            // IGameLogic = new TicTacToe(state);
+            // var updatedState = IGameLogic.MakeMove(state.Move);
+            // _context.UpdateGameSession(updatedState)
+            // return updatedState
             return Clients.All.ReceiveMessage(message);
+        }
+
+        private string InitializeGame(GameMessage message)
+        {
+            string gameName = message.GameType.Replace("State", "");
+            Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
+            var gameStateType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
+            var initialGameState = Activator.CreateInstance(gameStateType);
+            return JsonConvert.SerializeObject(initialGameState);
+        }
+
+        private object DeserializeMessage(GameMessage message)
+        {
+            string gameName = message.GameType.Replace("State", "");
+            Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
+            var resultingGameType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
+            var gameStateType = message.GameState.GetType();
+            var gameState = JsonConvert.DeserializeObject(message.GameState, resultingGameType);
+            return gameState;
         }
 
     }

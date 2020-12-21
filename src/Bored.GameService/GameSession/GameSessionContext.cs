@@ -25,9 +25,9 @@ namespace Bored.GameService.GameSession
             return _db.StringGet(gameID);
         }
 
-        public object AddGameState(string gameID, object state)
+        public string AddGameState(string gameID, string state)
         {
-            return _db.StringSet(gameID, JsonConvert.SerializeObject(state)) ? state : null;
+            return _db.StringSet(gameID, state) ? state : null;
         }
     }
 }

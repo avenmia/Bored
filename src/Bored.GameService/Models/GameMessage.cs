@@ -12,5 +12,7 @@ namespace Bored.GameService.Models
         public string GameType { get; set; }
 
         public string GameState { get; set; }
+    
+        public string GameID { get; set; }
     }
 }

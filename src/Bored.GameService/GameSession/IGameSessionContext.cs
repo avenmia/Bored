@@ -9,6 +9,6 @@ namespace Bored.GameService.GameSession
     {
         string GetGameState(string gameID);
 
-        object AddGameState(string gameID, object state);
+        string AddGameState(string gameID, string state);
     }
 }
