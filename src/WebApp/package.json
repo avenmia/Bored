@@ -8,6 +8,8 @@
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
+    "@microsoft/signalr": "^5.0.1",
+    "@types/signalr": "^2.2.36",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
