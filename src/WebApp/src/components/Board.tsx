@@ -10,11 +10,7 @@ const Board = () =>
 
   function updateBoard()
   {
-    let currentPlayer = player;
-    console.log("Current player is : %s", currentPlayer);
-    console.log("Nextplayer is : %s", player);
     player === 'X' ? setPlayer('O') : setPlayer('X')
-    console.log("Nextplayer is : %s", player);
     return player;
   }
 
