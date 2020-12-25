@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Game.TicTacToe", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Game.TicTacToe.Test", "test\Bored.Game.TicTacToe.Test\Bored.Game.TicTacToe.Test.csproj", "{36425612-3F1A-4713-855F-787D680E22DA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Game.Uno", "src\Bored.Game.Uno\Bored.Game.Uno.csproj", "{079A2C36-11F5-489F-A66E-89ACCA2C2F97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bored.Game.Uno.Test", "test\Bored.Game.Uno.Test\Bored.Game.Uno.Test.csproj", "{D557087F-EE47-47FA-B9BD-85C110D4BE2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,14 @@ Global
 		{36425612-3F1A-4713-855F-787D680E22DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36425612-3F1A-4713-855F-787D680E22DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36425612-3F1A-4713-855F-787D680E22DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079A2C36-11F5-489F-A66E-89ACCA2C2F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079A2C36-11F5-489F-A66E-89ACCA2C2F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079A2C36-11F5-489F-A66E-89ACCA2C2F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079A2C36-11F5-489F-A66E-89ACCA2C2F97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D557087F-EE47-47FA-B9BD-85C110D4BE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D557087F-EE47-47FA-B9BD-85C110D4BE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D557087F-EE47-47FA-B9BD-85C110D4BE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D557087F-EE47-47FA-B9BD-85C110D4BE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
