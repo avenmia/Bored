@@ -24,7 +24,6 @@ namespace Bored.GameService.GameServiceAPI
 
         public Task SendMessage(GameMessage message)
         {
-            // var gameMessage = DeserializeMessage(message);
             var state = _context.GetGameState(message.GameID);
             if (state == null)
             {
@@ -35,12 +34,28 @@ namespace Bored.GameService.GameServiceAPI
                 return Clients.All.ReceiveMessage(message);
             }
 
-            var deserailizedMessage =  DeserializeMessage(message);
-            // IGameLogic = new TicTacToe(state);
-            // var updatedState = IGameLogic.MakeMove(state.Move);
-            // _context.UpdateGameSession(updatedState)
-            // return updatedState
+            var clientState =  DeserializeMessage(message);
+            var currentGameState = UpdateGame(message, clientState);
+
+            // TODO: Check for if currentGameState is null because it is invalid
+            // TODO: Check if this overrides the current state in the database
+            _context.AddGameState(message.GameID, currentGameState);
+
+            // TODO: Remove this
             return Clients.All.ReceiveMessage(message);
+        }
+
+        private string UpdateGame(GameMessage message, ClientState state)
+        {
+            string gameName = message.GameType.Replace("State", "");
+
+            // TODO: Replace with Factory Pattern?
+            Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
+            var gameType = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName).FirstOrDefault();
+            var gameStateType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
+            ConstructorInfo ctor = gameType.GetConstructor(new[] { gameStateType });
+            IGameLogic gameInstance = ctor.Invoke(new object[] { state.State }) as IGameLogic;
+            return JsonConvert.SerializeObject(gameInstance.MakeMove(state.Move));
         }
 
         private string InitializeGame(GameMessage message)
@@ -51,6 +66,7 @@ namespace Bored.GameService.GameServiceAPI
             var initialGameState = Activator.CreateInstance(gameStateType);
             return JsonConvert.SerializeObject(initialGameState);
         }
+
 
         private ClientState DeserializeMessage(GameMessage message)
         {
