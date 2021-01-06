@@ -34,6 +34,8 @@ namespace Bored.GameService.GameServiceAPI
                 // TODO: Remove this
                 return Clients.All.ReceiveMessage(message);
             }
+
+            var deserailizedMessage =  DeserializeMessage(message);
             // IGameLogic = new TicTacToe(state);
             // var updatedState = IGameLogic.MakeMove(state.Move);
             // _context.UpdateGameSession(updatedState)
@@ -50,14 +52,17 @@ namespace Bored.GameService.GameServiceAPI
             return JsonConvert.SerializeObject(initialGameState);
         }
 
-        private object DeserializeMessage(GameMessage message)
+        private ClientState DeserializeMessage(GameMessage message)
         {
+            var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Error };
             string gameName = message.GameType.Replace("State", "");
             Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
             var resultingGameType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
+            var gameMoveType = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName + "Move").FirstOrDefault();
             var gameStateType = message.GameState.GetType();
-            var gameState = JsonConvert.DeserializeObject(message.GameState, resultingGameType);
-            return gameState;
+            var gameState = JsonConvert.DeserializeObject(message.GameState, resultingGameType, settings);
+            var gameMove = JsonConvert.DeserializeObject(message.Move, gameMoveType, settings);
+            return new ClientState(gameState, (IGameMove)gameMove);
         }
 
     }
