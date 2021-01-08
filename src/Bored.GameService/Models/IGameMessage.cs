@@ -9,9 +9,7 @@ namespace Bored.GameService.Models
 {
     public interface IGameMessage
     {
-        string GameType { get; set; }
-
-        string GameState { get; set; }
+        string Game { get; set; }
 
         string GameID { get; set; }
 

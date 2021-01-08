@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
@@ -57,36 +58,54 @@ namespace Bored.GameService.GameServiceAPI
             return Clients.All.ReceiveMessage(currentGameState);
         }
 
-        private void SetGameType(GameMessage message)
+        public void SetGameType(GameMessage message)
         {
-            string gameName = message.GameType.Replace("State", "");
-            Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
-            this.Game = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName).FirstOrDefault();
-            this.GameState = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
-            this.GameMove = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName + "Move").FirstOrDefault();
+            string gameName = message.Game;
+            try
+            {
+                Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
+                Game = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName).FirstOrDefault();
+                GameState = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName + "State").FirstOrDefault();
+                GameMove = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName + "Move").FirstOrDefault();
+            }
+            catch(Exception ex) when 
+            (
+                ex is ArgumentNullException
+                || ex is ArgumentException
+                || ex is FileNotFoundException
+                || ex is FileLoadException
+            )
+            {
+                throw new Exception("Invalid assembly");
+            }
+
+            if(Game == null || GameState == null || GameMove == null)
+            {
+                throw new Exception("Invalid service request");
+            }
         }
 
-        private string UpdateGame(object state, IGameMove move)
+        public string UpdateGame(object state, IGameMove move)
         {
             ConstructorInfo ctor = this.Game.GetConstructor(new[] { this.GameState });
             IGameLogic gameInstance = ctor.Invoke(new object[] { state }) as IGameLogic;
             return JsonConvert.SerializeObject(gameInstance.MakeMove(move));
         }
 
-        private string InitializeGame()
+        public string InitializeGame()
         {
             var initialGameState = Activator.CreateInstance(this.GameState);
             return JsonConvert.SerializeObject(initialGameState);
         }
 
 
-        private IGameMove GetClientMove(GameMessage message)
+        public IGameMove GetClientMove(GameMessage message)
         {
             var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Error };
             return JsonConvert.DeserializeObject(message.Move, this.GameMove, settings) as IGameMove;
         }
 
-        private object DeserializeGameState(string state)
+        public object DeserializeGameState(string state)
         {
             var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Error };
             return JsonConvert.DeserializeObject(state, this.GameState, settings);
