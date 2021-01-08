@@ -1,4 +1,5 @@
-﻿using Bored.GameService.Models;
+﻿using Bored.Common;
+using Bored.GameService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace Bored.GameService.Clients
 {
     public interface IGameClient
     {
-        Task ReceiveMessage(GameMessage message);
+        Task ReceiveMessage(string state);
     }
 }

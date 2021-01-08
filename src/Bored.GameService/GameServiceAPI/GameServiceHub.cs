@@ -17,6 +17,13 @@ namespace Bored.GameService.GameServiceAPI
     public class GameServiceHub : Hub<IGameClient>
     {
         private IGameSessionContext _context;
+        
+        public Type Game { get; set; }
+
+        public Type GameState { get; set; }
+
+        public Type GameMove { get; set; }
+
         public GameServiceHub(IGameSessionContext context)
         {
             _context = context;
@@ -25,60 +32,64 @@ namespace Bored.GameService.GameServiceAPI
         public Task SendMessage(GameMessage message)
         {
             var state = _context.GetGameState(message.GameID);
+            SetGameType(message);
+            
+            // If no current state exists initialize the game
             if (state == null)
             {
-                state = InitializeGame(message);
+                state = InitializeGame();
                 var result = _context.AddGameState(message.GameID, state);
-                
-                // TODO: Remove this
-                return Clients.All.ReceiveMessage(message);
+                return Clients.All.ReceiveMessage(result);
             }
 
-            var clientState =  DeserializeMessage(message);
-            var currentGameState = UpdateGame(message, clientState);
+            var clientMove =  GetClientMove(message);
+            var clientState = DeserializeGameState(state);
+            var currentGameState = UpdateGame(clientState, clientMove);
 
-            // TODO: Check for if currentGameState is null because it is invalid
+            if (currentGameState == null)
+            {
+                throw new Exception("Invalid move");
+            }
+
             // TODO: Check if this overrides the current state in the database
-            _context.AddGameState(message.GameID, currentGameState);
+            currentGameState = _context.AddGameState(message.GameID, currentGameState);
 
-            // TODO: Remove this
-            return Clients.All.ReceiveMessage(message);
+            return Clients.All.ReceiveMessage(currentGameState);
         }
 
-        private string UpdateGame(GameMessage message, ClientState state)
-        {
-            string gameName = message.GameType.Replace("State", "");
-
-            // TODO: Replace with Factory Pattern?
-            Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
-            var gameType = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName).FirstOrDefault();
-            var gameStateType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
-            ConstructorInfo ctor = gameType.GetConstructor(new[] { gameStateType });
-            IGameLogic gameInstance = ctor.Invoke(new object[] { state.State }) as IGameLogic;
-            return JsonConvert.SerializeObject(gameInstance.MakeMove(state.Move));
-        }
-
-        private string InitializeGame(GameMessage message)
+        private void SetGameType(GameMessage message)
         {
             string gameName = message.GameType.Replace("State", "");
             Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
-            var gameStateType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
-            var initialGameState = Activator.CreateInstance(gameStateType);
+            this.Game = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName).FirstOrDefault();
+            this.GameState = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
+            this.GameMove = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName + "Move").FirstOrDefault();
+        }
+
+        private string UpdateGame(object state, IGameMove move)
+        {
+            ConstructorInfo ctor = this.Game.GetConstructor(new[] { this.GameState });
+            IGameLogic gameInstance = ctor.Invoke(new object[] { state }) as IGameLogic;
+            return JsonConvert.SerializeObject(gameInstance.MakeMove(move));
+        }
+
+        private string InitializeGame()
+        {
+            var initialGameState = Activator.CreateInstance(this.GameState);
             return JsonConvert.SerializeObject(initialGameState);
         }
 
 
-        private ClientState DeserializeMessage(GameMessage message)
+        private IGameMove GetClientMove(GameMessage message)
         {
             var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Error };
-            string gameName = message.GameType.Replace("State", "");
-            Assembly gameAssembly = Assembly.Load("Bored.Game." + gameName);
-            var resultingGameType = gameAssembly.GetTypes().Where(typeName => typeName.Name == message.GameType).FirstOrDefault();
-            var gameMoveType = gameAssembly.GetTypes().Where(typeName => typeName.Name == gameName + "Move").FirstOrDefault();
-            var gameStateType = message.GameState.GetType();
-            var gameState = JsonConvert.DeserializeObject(message.GameState, resultingGameType, settings);
-            var gameMove = JsonConvert.DeserializeObject(message.Move, gameMoveType, settings);
-            return new ClientState(gameState, (IGameMove)gameMove);
+            return JsonConvert.DeserializeObject(message.Move, this.GameMove, settings) as IGameMove;
+        }
+
+        private object DeserializeGameState(string state)
+        {
+            var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Error };
+            return JsonConvert.DeserializeObject(state, this.GameState, settings);
         }
 
     }

@@ -13,7 +13,7 @@ namespace Bored.Game.TicTacToe
         {
             TicTacToeMove move = gameMove as TicTacToeMove;
 
-            if (IsValidMove(move.Player, move.Cell))
+            if (move != null && IsValidMove(move.Player, move.Cell))
             {
                 State.Cells[move.Cell.Row, move.Cell.Col] = State.Turn;
                 if (IsWinningMoveByPlayer(State.Turn, move.Cell))
