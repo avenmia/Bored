@@ -6,25 +6,30 @@ interface TicTacToeState
 {
   GameID: string,
   GameType: string,
-  Turn: String,
-  Winner: String,
+  Turn: string,
+  Winner: string,
   TotalWins: Number
+}
+
+interface TicTacToeMove
+{
+  Player: string,
+  Cell: {
+    row: number,
+    col: number
+  }
 }
 
 interface IGameState<T>
 {
 }
 
-// interface GameMessage
-// {
-//   GameState: IGameState<unknown>,
-//   GameType: string
-// }
 
 interface GameMessage
 {
-  GameState: any,
-  GameType: string
+  Game: string,
+  GameID: string,
+  Move: string,
 }
 
 
@@ -57,24 +62,19 @@ const TicTacToe = () =>
   }, [connection]);
 
   const sendState = async () => {
-    // const chatMessage: TicTacToeState = {
-    //     GameID: "game1",
-    //     GameType: "TestState",
-    //     Turn: "X",
-    //     Winner: "None",
-    //     TotalWins: 5
-    // };
 
-    const chatMessage: IGameState<any> = {
-      GameID: "game1",
-      Winner: "Charlie Kelly",
-      Turn: "Over",
-      TotalWins: 5
+    const move: TicTacToeMove = {
+      Player: "O",
+      Cell: {
+        row: 0,
+        col: 1
+      }
     }
 
     const gameMessage: GameMessage = {
-      GameState: JSON.stringify(chatMessage),
-      GameType: "TestState"
+      Game: "TicTacToe",
+      GameID: "1",
+      Move: JSON.stringify(move),
     }
 
     if (connection?.state === "Connected") {
