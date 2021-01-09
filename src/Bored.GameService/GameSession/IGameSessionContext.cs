@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bored.Common;
 
 namespace Bored.GameService.GameSession
 {
@@ -9,6 +6,6 @@ namespace Bored.GameService.GameSession
     {
         string GetGameState(string gameID);
 
-        string AddGameState(string gameID, string state);
+        string AddGameState(string gameID, IGameState state);
     }
 }

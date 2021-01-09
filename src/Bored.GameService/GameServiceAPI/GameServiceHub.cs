@@ -35,9 +35,7 @@ namespace Bored.GameService.GameServiceAPI
                 return Clients.All.ReceiveMessage("Invalid Move");
             }
 
-            var serializedState = JsonConvert.SerializeObject(updatedGameState);
-
-            GameContext.AddGameState(message.GameID, serializedState);
+            var serializedState = GameContext.AddGameState(message.GameID, updatedGameState);
 
             return Clients.All.ReceiveMessage(serializedState);
         }

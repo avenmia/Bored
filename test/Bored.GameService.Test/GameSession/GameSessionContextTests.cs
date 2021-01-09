@@ -1,4 +1,6 @@
-﻿using Bored.GameService.GameSession;
+﻿using Bored.Common;
+using Bored.Game.TicTacToe;
+using Bored.GameService.GameSession;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -61,16 +63,17 @@ namespace Bored.GameService.Test.GameSession
         {
             // Arrange
             string gameID = "game";
-            string state = JsonConvert.SerializeObject(new { Winner = "Player 1", Board = new int[3, 3] { { 1, -1, 0 }, { 1, -1, 0 }, { 1, 0, -1 } } });
-            dbMock.Setup(d => d.StringSet(gameID, state, null, When.Always, CommandFlags.None)).Returns(true);
+            IGameState state = new TicTacToeState();
+            string serializedState = JsonConvert.SerializeObject(state);
+            dbMock.Setup(d => d.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None)).Returns(true);
             GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
 
             // Act
             var result = context.AddGameState(gameID, state);
 
             // Assert
-            Assert.AreEqual(state, result);
-            dbMock.Verify(mock => mock.StringSet(gameID, state, null, When.Always, CommandFlags.None), Times.Once());
+            Assert.AreEqual(serializedState, result);
+            dbMock.Verify(mock => mock.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None), Times.Once());
         }
 
         [Test]
@@ -78,8 +81,9 @@ namespace Bored.GameService.Test.GameSession
         {
             // Arrange
             string gameID = "game";
-            string state = JsonConvert.SerializeObject(new { Winner = "Player 1", Board = new int[3, 3] { { 1, -1, 0 }, { 1, -1, 0 }, { 1, 0, -1 } } });
-            dbMock.Setup(d => d.StringSet(gameID, state, null, When.Always, CommandFlags.None)).Returns(false);
+            IGameState state = new TicTacToeState();
+            string serializedState = JsonConvert.SerializeObject(state);
+            dbMock.Setup(d => d.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None)).Returns(false);
             GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
 
             // Act
@@ -87,7 +91,7 @@ namespace Bored.GameService.Test.GameSession
 
             // Assert
             Assert.AreEqual(null, result);
-            dbMock.Verify(mock => mock.StringSet(gameID, state, null, When.Always, CommandFlags.None), Times.Once());
+            dbMock.Verify(mock => mock.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None), Times.Once());
         }
     }
 }
