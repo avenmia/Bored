@@ -1,3 +1,4 @@
+using Bored.GameService.Factories;
 using Bored.GameService.GameServiceAPI;
 using Bored.GameService.GameSession;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,7 @@ namespace Bored.GameService
         {
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("redis")));
             services.AddScoped<IGameSessionContext, GameSessionContext>();
+            services.AddScoped<IFactory, Factory>();
 
             services.AddSignalR();
 
