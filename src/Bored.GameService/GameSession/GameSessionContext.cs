@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bored.Common;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -25,9 +26,10 @@ namespace Bored.GameService.GameSession
             return _db.StringGet(gameID);
         }
 
-        public object AddGameState(string gameID, object state)
+        public string AddGameState(string gameID, IGameState state)
         {
-            return _db.StringSet(gameID, JsonConvert.SerializeObject(state)) ? state : null;
+            var serializedState = JsonConvert.SerializeObject(state);
+            return _db.StringSet(gameID, serializedState) ? serializedState : null;
         }
     }
 }

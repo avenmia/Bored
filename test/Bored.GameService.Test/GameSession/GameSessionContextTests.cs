@@ -1,4 +1,6 @@
-﻿using Bored.GameService.GameSession;
+﻿using Bored.Common;
+using Bored.Game.TicTacToe;
+using Bored.GameService.GameSession;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -61,7 +63,7 @@ namespace Bored.GameService.Test.GameSession
         {
             // Arrange
             string gameID = "game";
-            object state = new { Winner = "Player 1", Board = new int[3, 3] { { 1, -1, 0 }, { 1, -1, 0 }, { 1, 0, -1 } } };
+            IGameState state = new TicTacToeState();
             string serializedState = JsonConvert.SerializeObject(state);
             dbMock.Setup(d => d.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None)).Returns(true);
             GameSessionContext context = new GameSessionContext(multiplexerMock.Object);
@@ -70,7 +72,7 @@ namespace Bored.GameService.Test.GameSession
             var result = context.AddGameState(gameID, state);
 
             // Assert
-            Assert.AreEqual(state, result);
+            Assert.AreEqual(serializedState, result);
             dbMock.Verify(mock => mock.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None), Times.Once());
         }
 
@@ -79,7 +81,7 @@ namespace Bored.GameService.Test.GameSession
         {
             // Arrange
             string gameID = "game";
-            object state = new { Winner = "Player 1", Board = new int[3, 3] { { 1, -1, 0 }, { 1, -1, 0 }, { 1, 0, -1 } } };
+            IGameState state = new TicTacToeState();
             string serializedState = JsonConvert.SerializeObject(state);
             dbMock.Setup(d => d.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None)).Returns(false);
             GameSessionContext context = new GameSessionContext(multiplexerMock.Object);

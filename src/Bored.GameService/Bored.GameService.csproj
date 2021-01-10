@@ -9,4 +9,9 @@
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Bored.Common\Bored.Common.csproj" />
+    <ProjectReference Include="..\Bored.Game.TicTacToe\Bored.Game.TicTacToe.csproj" />
+  </ItemGroup>
+
 </Project>
