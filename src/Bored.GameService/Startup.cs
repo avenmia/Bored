@@ -1,24 +1,29 @@
-using Bored.GameService.Factories;
-using Bored.GameService.GameServiceAPI;
-using Bored.GameService.GameSession;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Bored.GameService
 {
+    using Bored.GameService.Factories;
+    using Bored.GameService.GameServiceAPI;
+    using Bored.GameService.GameSession;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using StackExchange.Redis;
+
+    /// <summary>
+    /// The startup file.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// The project configuration.
+        /// </summary>
         public static IConfiguration Configuration { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +31,11 @@ namespace Bored.GameService
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
+        /// <summary>
+        /// Configures the project's services.
+        /// </summary>
+        /// <param name="services">The services to be configured.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("redis")));
@@ -47,6 +57,12 @@ namespace Bored.GameService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
+        /// <summary>
+        /// Configures the project.
+        /// </summary>
+        /// <param name="app">The app to configure.</param>
+        /// <param name="env">The environment.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
