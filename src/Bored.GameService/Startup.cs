@@ -16,18 +16,18 @@ namespace Bored.GameService
     public class Startup
     {
         /// <summary>
-        /// The project configuration.
-        /// </summary>
-        public static IConfiguration Configuration { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="configuration">The configuration</param>
+        /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        /// <summary>
+        /// Gets the project configuration.
+        /// </summary>
+        public static IConfiguration Configuration { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940

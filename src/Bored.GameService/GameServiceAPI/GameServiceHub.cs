@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.SignalR;
 
     /// <summary>
-    /// The GameServiceHub. This is responsible for receiving messages from 
+    /// The GameServiceHub. This is responsible for receiving messages from
     /// clients and responding to clients.
     /// </summary>
     public class GameServiceHub : Hub<IGameClient>
@@ -16,7 +16,7 @@
         /// <summary>
         /// The GameContext deals with the database connection for the game.
         /// </summary>
-        private readonly IGameSessionContext GameContext;
+        private readonly IGameSessionContext gameContext;
 
         /// <summary>
         /// The Factory deals with retrieving the correct game type,
@@ -31,7 +31,7 @@
         /// <param name="factory">The factory.</param>
         public GameServiceHub(IGameSessionContext context, IFactory factory)
         {
-            GameContext = context;
+            gameContext = context;
             Factory = factory;
         }
 
@@ -43,7 +43,7 @@
         /// <returns>A task.</returns>
         public Task SendMessage(GameMessage message)
         {
-            var gameState = GameContext.GetGameState(message.GameID);
+            var gameState = gameContext.GetGameState(message.GameID);
             var deserializedGameState = Factory.GameStateFactory(message.Game, gameState);
             var game = Factory.GameFactory(message.Game, deserializedGameState);
             var gameMove = Factory.GameMoveFactory(message.Game, message.Move);
@@ -54,7 +54,7 @@
                 return Clients.All.ReceiveMessage("Invalid Move");
             }
 
-            var serializedState = GameContext.AddGameState(message.GameID, updatedGameState);
+            var serializedState = gameContext.AddGameState(message.GameID, updatedGameState);
 
             return Clients.All.ReceiveMessage(serializedState);
         }

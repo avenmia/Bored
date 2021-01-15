@@ -5,28 +5,28 @@
     using StackExchange.Redis;
 
     /// <summary>
-    /// The GameSessionContext. This is responsible for managing the database connection. 
+    /// The GameSessionContext. This is responsible for managing the database connection.
     /// </summary>
     public class GameSessionContext : IGameSessionContext
     {
         /// <summary>
         /// The connection multiplexer.
         /// </summary>
-        private readonly IConnectionMultiplexer _muxer;
+        private readonly IConnectionMultiplexer muxer;
 
         /// <summary>
         /// The database connection.
         /// </summary>
-        private IDatabase _db;
+        private IDatabase db;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameSessionContext"/> class.
         /// </summary>
-        /// <param name="muxer">The connection multiplexer.</param>
-        public GameSessionContext(IConnectionMultiplexer muxer)
+        /// <param name="connMultiplexer">The connection multiplexer.</param>
+        public GameSessionContext(IConnectionMultiplexer connMultiplexer)
         {
-            _muxer = muxer;
-            _db = _muxer.GetDatabase();
+            muxer = connMultiplexer;
+            db = muxer.GetDatabase();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@
         /// <returns>The current state of the game.</returns>
         public string GetGameState(string gameID)
         {
-            return _db.StringGet(gameID);
+            return db.StringGet(gameID);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@
         public string AddGameState(string gameID, IGameState state)
         {
             var serializedState = JsonConvert.SerializeObject(state);
-            return _db.StringSet(gameID, serializedState) ? serializedState : null;
+            return db.StringSet(gameID, serializedState) ? serializedState : null;
         }
     }
 }
