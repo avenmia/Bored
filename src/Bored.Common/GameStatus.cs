@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.Common.Models
+﻿namespace Bored.Common.Models
 {
+    /// <summary>
+    /// The GameStatus types.
+    /// </summary>
     public enum GameStatus
     {
+        /// <summary>
+        /// The game status if the game is finished.
+        /// </summary>
         FINISHED,
+
+        /// <summary>
+        /// The game status if the game is in progress.
+        /// </summary>
         IN_PROGRESS,
     }
 }
