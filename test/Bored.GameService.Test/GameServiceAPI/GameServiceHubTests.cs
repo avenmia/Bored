@@ -10,6 +10,9 @@
     using Moq;
     using NUnit.Framework;
 
+    /// <summary>
+    /// Tests for the Game Service Hub.
+    /// </summary>
     [TestFixture]
     public class GameServiceHubTests
     {
@@ -17,6 +20,9 @@
 
         private Mock<IFactory> factoryMock;
 
+        /// <summary>
+        /// Setting up the game service hub tests.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -24,6 +30,9 @@
             factoryMock = new Mock<IFactory>();
         }
 
+        /// <summary>
+        /// Test for the SendMessage function.
+        /// </summary>
         [Test]
         public void SendMessageTest()
         {

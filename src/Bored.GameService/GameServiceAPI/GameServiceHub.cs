@@ -22,7 +22,7 @@
         /// The Factory deals with retrieving the correct game type,
         /// game move, and game state.
         /// </summary>
-        private readonly IFactory Factory;
+        private readonly IFactory gameFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameServiceHub"/> class.
@@ -32,7 +32,7 @@
         public GameServiceHub(IGameSessionContext context, IFactory factory)
         {
             gameContext = context;
-            Factory = factory;
+            gameFactory = factory;
         }
 
         /// <summary>
@@ -44,9 +44,9 @@
         public Task SendMessage(GameMessage message)
         {
             var gameState = gameContext.GetGameState(message.GameID);
-            var deserializedGameState = Factory.GameStateFactory(message.Game, gameState);
-            var game = Factory.GameFactory(message.Game, deserializedGameState);
-            var gameMove = Factory.GameMoveFactory(message.Game, message.Move);
+            var deserializedGameState = gameFactory.GameStateFactory(message.Game, gameState);
+            var game = gameFactory.GameFactory(message.Game, deserializedGameState);
+            var gameMove = gameFactory.GameMoveFactory(message.Game, message.Move);
             var updatedGameState = game.MakeMove(gameMove);
 
             if (updatedGameState == null)

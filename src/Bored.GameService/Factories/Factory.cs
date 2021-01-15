@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Factory class that gives instances of Game, GameMove, and GameState objects
+    /// Factory class that gives instances of Game, GameMove, and GameState objects.
     /// </summary>
     public class Factory : IFactory
     {

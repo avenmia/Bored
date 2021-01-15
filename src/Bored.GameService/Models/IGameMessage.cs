@@ -1,18 +1,23 @@
 ﻿namespace Bored.GameService.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Bored.Common;
-    using Newtonsoft.Json;
-
+    /// <summary>
+    /// The interface that defines how the game data moves in the application.
+    /// </summary>
     public interface IGameMessage
     {
+        /// <summary>
+        /// Gets or sets the serialized version of the game.
+        /// </summary>
         string Game { get; set; }
 
+        /// <summary>
+        /// Gets or sets the game ID.
+        /// </summary>
         string GameID { get; set; }
 
+        /// <summary>
+        /// Gets or sets the serialized version of the game move.
+        /// </summary>
         string Move { get; set; }
     }
 }

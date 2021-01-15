@@ -2,6 +2,9 @@
 {
     using Bored.Common;
 
+    /// <summary>
+    /// The client state of the application.
+    /// </summary>
     public record ClientState
     {
         /// <summary>
