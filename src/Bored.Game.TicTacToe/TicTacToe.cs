@@ -24,7 +24,7 @@
         /// <returns>The updated game state. </returns>
         public override IGameState? MakeMove(IGameMove gameMove)
         {
-            TicTacToeMove move = gameMove as TicTacToeMove;
+            TicTacToeMove? move = gameMove as TicTacToeMove;
 
             if (move != null && IsValidMove(move.Player, move.Cell))
             {
