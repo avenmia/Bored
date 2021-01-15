@@ -1,23 +1,15 @@
-﻿using Bored.Common;
-using Bored.Game.TicTacToe;
-using Bored.GameService.Clients;
-using Bored.GameService.Factories;
-using Bored.GameService.GameServiceAPI;
-using Bored.GameService.GameSession;
-using Bored.GameService.Models;
-using Microsoft.AspNetCore.SignalR;
-using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.GameService.Test.GameServiceAPI
+﻿namespace Bored.GameService.Test.GameServiceAPI
 {
+    using Bored.Common;
+    using Bored.GameService.Clients;
+    using Bored.GameService.Factories;
+    using Bored.GameService.GameServiceAPI;
+    using Bored.GameService.GameSession;
+    using Bored.GameService.Models;
+    using Microsoft.AspNetCore.SignalR;
+    using Moq;
+    using NUnit.Framework;
+
     [TestFixture]
     public class GameServiceHubTests
     {

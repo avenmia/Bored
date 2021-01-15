@@ -1,18 +1,13 @@
-﻿using Bored.Common;
-using Bored.Game.TicTacToe;
-using Bored.GameService.GameSession;
-using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.GameService.Test.GameSession
+﻿namespace Bored.GameService.Test.GameSession
 {
+    using Bored.Common;
+    using Bored.Game.TicTacToe;
+    using Bored.GameService.GameSession;
+    using Moq;
+    using Newtonsoft.Json;
+    using NUnit.Framework;
+    using StackExchange.Redis;
+
     [TestFixture]
     public class GameSessionContextTests
     {
