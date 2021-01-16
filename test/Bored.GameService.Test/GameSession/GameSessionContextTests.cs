@@ -1,24 +1,25 @@
-﻿using Bored.Common;
-using Bored.Game.TicTacToe;
-using Bored.GameService.GameSession;
-using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.GameService.Test.GameSession
+﻿namespace Bored.GameService.Test.GameSession
 {
+    using Bored.Common;
+    using Bored.Game.TicTacToe;
+    using Bored.GameService.GameSession;
+    using Moq;
+    using Newtonsoft.Json;
+    using NUnit.Framework;
+    using StackExchange.Redis;
+
+    /// <summary>
+    /// Tests for the GameSession Context.
+    /// </summary>
     [TestFixture]
     public class GameSessionContextTests
     {
         private Mock<IConnectionMultiplexer> multiplexerMock;
         private Mock<IDatabase> dbMock;
 
+        /// <summary>
+        /// Sets up the GameSession Context tests.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -27,6 +28,11 @@ namespace Bored.GameService.Test.GameSession
             multiplexerMock.Setup(x => x.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(dbMock.Object);
         }
 
+        /// <summary>
+        /// Test for the GetGameState function.
+        /// </summary>
+        /// <param name="gameID">The game ID.</param>
+        /// <param name="state">The game state.</param>
         [TestCase("game", "Here is the state")]
         [TestCase(null, null)]
         public void GetGameStateTest(string gameID, string state)
@@ -43,6 +49,9 @@ namespace Bored.GameService.Test.GameSession
             dbMock.Verify(mock => mock.StringGet(gameID, It.IsAny<CommandFlags>()), Times.Once());
         }
 
+        /// <summary>
+        /// Test to get a non existant game.
+        /// </summary>
         [Test]
         public void GetNonExistantGameStateTest()
         {
@@ -58,6 +67,9 @@ namespace Bored.GameService.Test.GameSession
             dbMock.Verify(mock => mock.StringGet(gameID, It.IsAny<CommandFlags>()), Times.Once());
         }
 
+        /// <summary>
+        /// Test to add game state.
+        /// </summary>
         [Test]
         public void AddGameStateTest()
         {
@@ -76,6 +88,9 @@ namespace Bored.GameService.Test.GameSession
             dbMock.Verify(mock => mock.StringSet(gameID, serializedState, null, When.Always, CommandFlags.None), Times.Once());
         }
 
+        /// <summary>
+        /// Test for a failed add game state.
+        /// </summary>
         [Test]
         public void FailedAddGameStateTest()
         {

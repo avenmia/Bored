@@ -1,12 +1,8 @@
-﻿using Bored.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.Common
+﻿namespace Bored.Common
 {
+    /// <summary>
+    /// The game state interface.
+    /// </summary>
     public interface IGameState
     {
     }

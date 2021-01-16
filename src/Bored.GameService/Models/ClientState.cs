@@ -1,15 +1,27 @@
-﻿using Bored.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Bored.GameService.Models
+﻿namespace Bored.GameService.Models
 {
+    using Bored.Common;
+
+    /// <summary>
+    /// The client state of the application.
+    /// </summary>
     public record ClientState
     {
+        /// <summary>
+        /// Gets the client state.
+        /// </summary>
         public object State { get; }
+
+        /// <summary>
+        /// Gets the game move.
+        /// </summary>
         public IGameMove Move { get; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientState"/> class.
+        /// </summary>
+        /// <param name="state">The game state.</param>
+        /// <param name="move">The game move.</param>
         public ClientState(object state, IGameMove move) => (State, Move) = (state, move);
     }
 }

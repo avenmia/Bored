@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.Common
+﻿namespace Bored.Common
 {
+    /// <summary>
+    /// IGameMove is an interface for various types of game moves.
+    /// </summary>
     public interface IGameMove
     {
     }

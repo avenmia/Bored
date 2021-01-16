@@ -1,7 +1,18 @@
 ﻿namespace Bored.Game.TicTacToe
 {
+    /// <summary>
+    /// The types of TicTacToePlayers.
+    /// </summary>
     public enum TicTacToePlayer
     {
-        X, O
+        /// <summary>
+        /// The X Player
+        /// </summary>
+        X,
+
+        /// <summary>
+        /// The O Player
+        /// </summary>
+        O,
     }
 }

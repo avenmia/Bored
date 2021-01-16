@@ -1,33 +1,52 @@
-﻿using Bored.Common;
-using Bored.Game.TicTacToe;
-using Bored.GameService.Clients;
-using Bored.GameService.Factories;
-using Bored.GameService.GameSession;
-using Bored.GameService.Models;
-using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-
-namespace Bored.GameService.GameServiceAPI
+﻿namespace Bored.GameService.GameServiceAPI
 {
+    using System.Threading.Tasks;
+    using Bored.GameService.Clients;
+    using Bored.GameService.Factories;
+    using Bored.GameService.GameSession;
+    using Bored.GameService.Models;
+    using Microsoft.AspNetCore.SignalR;
+
+    /// <summary>
+    /// The GameServiceHub. This is responsible for receiving messages from
+    /// clients and responding to clients.
+    /// </summary>
     public class GameServiceHub : Hub<IGameClient>
     {
-        private readonly IGameSessionContext GameContext;
+        /// <summary>
+        /// The GameContext deals with the database connection for the game.
+        /// </summary>
+        private readonly IGameSessionContext gameContext;
 
-        private readonly IFactory Factory;
+        /// <summary>
+        /// The Factory deals with retrieving the correct game type,
+        /// game move, and game state.
+        /// </summary>
+        private readonly IFactory gameFactory;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameServiceHub"/> class.
+        /// </summary>
+        /// <param name="context">The game session context.</param>
+        /// <param name="factory">The factory.</param>
         public GameServiceHub(IGameSessionContext context, IFactory factory)
         {
-            GameContext = context;
-            Factory = factory;
+            gameContext = context;
+            gameFactory = factory;
         }
 
+        /// <summary>
+        /// Receives the message from the clients, runs the game logic,
+        /// then sends the ending state back to the clients.
+        /// </summary>
+        /// <param name="message">The client message.</param>
+        /// <returns>A task.</returns>
         public Task SendMessage(GameMessage message)
         {
-            var gameState = GameContext.GetGameState(message.GameID);
-            var deserializedGameState = Factory.GameStateFactory(message.Game, gameState);
-            var game = Factory.GameFactory(message.Game, deserializedGameState);
-            var gameMove = Factory.GameMoveFactory(message.Game, message.Move);
+            var gameState = gameContext.GetGameState(message.GameID);
+            var deserializedGameState = gameFactory.GameStateFactory(message.Game, gameState);
+            var game = gameFactory.GameFactory(message.Game, deserializedGameState);
+            var gameMove = gameFactory.GameMoveFactory(message.Game, message.Move);
             var updatedGameState = game.MakeMove(gameMove);
 
             if (updatedGameState == null)
@@ -35,7 +54,7 @@ namespace Bored.GameService.GameServiceAPI
                 return Clients.All.ReceiveMessage("Invalid Move");
             }
 
-            var serializedState = GameContext.AddGameState(message.GameID, updatedGameState);
+            var serializedState = gameContext.AddGameState(message.GameID, updatedGameState);
 
             return Clients.All.ReceiveMessage(serializedState);
         }

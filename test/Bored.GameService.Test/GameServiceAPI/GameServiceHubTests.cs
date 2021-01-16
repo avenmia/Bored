@@ -1,23 +1,18 @@
-﻿using Bored.Common;
-using Bored.Game.TicTacToe;
-using Bored.GameService.Clients;
-using Bored.GameService.Factories;
-using Bored.GameService.GameServiceAPI;
-using Bored.GameService.GameSession;
-using Bored.GameService.Models;
-using Microsoft.AspNetCore.SignalR;
-using Moq;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bored.GameService.Test.GameServiceAPI
+﻿namespace Bored.GameService.Test.GameServiceAPI
 {
+    using Bored.Common;
+    using Bored.GameService.Clients;
+    using Bored.GameService.Factories;
+    using Bored.GameService.GameServiceAPI;
+    using Bored.GameService.GameSession;
+    using Bored.GameService.Models;
+    using Microsoft.AspNetCore.SignalR;
+    using Moq;
+    using NUnit.Framework;
+
+    /// <summary>
+    /// Tests for the Game Service Hub.
+    /// </summary>
     [TestFixture]
     public class GameServiceHubTests
     {
@@ -25,6 +20,9 @@ namespace Bored.GameService.Test.GameServiceAPI
 
         private Mock<IFactory> factoryMock;
 
+        /// <summary>
+        /// Setting up the game service hub tests.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -32,6 +30,9 @@ namespace Bored.GameService.Test.GameServiceAPI
             factoryMock = new Mock<IFactory>();
         }
 
+        /// <summary>
+        /// Test for the SendMessage function.
+        /// </summary>
         [Test]
         public void SendMessageTest()
         {
