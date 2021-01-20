@@ -1,10 +1,19 @@
 ﻿namespace Bored.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// The User model.
     /// </summary>
     public class User
     {
+
+        /// <summary>
+        /// Gets or sets the unique identifier for the User.
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the user's first name.
         /// </summary>
