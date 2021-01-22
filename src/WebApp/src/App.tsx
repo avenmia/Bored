@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import TicTacToe from "./components/TicTacToe";
+import TicTacToe from "./components/games/TicTacToe/TicTacToe";
 
 interface AppProps {}
 
