@@ -54,31 +54,24 @@ const TicTacToe = () =>
 
                 connection.on('ReceiveMessage', (message: any) => {
                     console.log("Receiving state");
-                    // setBoard(message);
+                    console.log(message);
                 });
             })
             .catch(e => console.log('Connection failed: ', e));
     }
   }, [connection]);
 
-  const sendState = async () => {
-
-    const move: TicTacToeMove = {
-      Player: "O",
-      Cell: {
-        row: 0,
-        col: 1
-      }
-    }
+  const sendState = async (gameId: string, move: TicTacToeMove) => {
 
     const gameMessage: GameMessage = {
       Game: "TicTacToe",
-      GameID: "1",
+      GameID: gameId,
       Move: JSON.stringify(move),
     }
 
     if (connection?.state === "Connected") {
         try {
+            console.log("Game Message is: %o", gameMessage);
             await connection.send('SendMessage', gameMessage);
         }
         catch(e) {
@@ -92,7 +85,7 @@ const TicTacToe = () =>
 
   return (
     <div>
-      <Board sendState={async () => await sendState()} setBoard={() => console.log("Setting board")}/>
+      <Board sendState={sendState} setBoard={() => console.log("Setting board")}/>
     </div>
   )
 }

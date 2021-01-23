@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useState } from "react";
 import "./styles/Cell.css"
 
-const Cell = ({value, updateBoard} : any) =>
+const Cell = ({value, updateBoard, position} : any) =>
 {
   const [player, setPlayer] = useState(' ');
 
@@ -10,7 +10,15 @@ const Cell = ({value, updateBoard} : any) =>
     if (player === ' ')
     {
       setPlayer(value);
-      updateBoard();
+      const move = {
+        Player: value,
+        Cell: {
+          row: position[0],
+          col: position[1]
+        }
+      }
+      console.log("Move is: %o", move)
+      updateBoard(move);
     }
   }
 
