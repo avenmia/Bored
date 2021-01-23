@@ -11,19 +11,18 @@ interface TicTacToeMove
   }
 }
 
-const Board = ({sendState, setBoard} : any) => 
+const Board = ({gameId, sendState, gameState} : any) => 
 {
   const ROW_SIZE = 3;
   const COL_SIZE = 3;
 
+  console.log("Current game state: %o", gameState);
+  
   const [player, setPlayer] = useState('X')
-
   async function updateBoard(move: TicTacToeMove)
   {
     player === 'X' ? setPlayer('O') : setPlayer('X')
-    console.log("Incoming move is: %o", move);
-    // TODO: Remove hard coded game ID
-    await sendState("1", move);
+    await sendState(gameId, move);
     return player;
   }
 

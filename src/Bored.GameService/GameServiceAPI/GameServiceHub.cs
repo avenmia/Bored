@@ -1,5 +1,6 @@
 ﻿namespace Bored.GameService.GameServiceAPI
 {
+    using System;
     using System.Threading.Tasks;
     using Bored.GameService.Clients;
     using Bored.GameService.Factories;
@@ -33,6 +34,16 @@
         {
             gameContext = context;
             gameFactory = factory;
+        }
+
+        /// <summary>
+        /// Function that generates a gameId
+        /// for the client.
+        /// </summary>
+        /// <returns> representing sending the new GameId to the clients.</returns>
+        public Task GetNewGameID()
+        {
+            return Clients.All.ReceiveMessage(Guid.NewGuid().ToString());
         }
 
         /// <summary>

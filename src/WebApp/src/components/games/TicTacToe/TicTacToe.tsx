@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Board from "./Board";
+import { Guid } from "guid-typescript";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 
 interface TicTacToeState
 {
-  GameID: string,
+  Winner: string,
+  Cells: [][],
   GameType: string,
   Turn: string,
-  Winner: string,
-  TotalWins: Number
+  Status: string
 }
 
 interface TicTacToeMove
@@ -36,6 +37,8 @@ interface GameMessage
 const TicTacToe = () => 
 {
   const [ connection, setConnection ] = useState<HubConnection | null>(null);
+  const [gameId, setGameId] = useState('');
+  const [gameState, setGameState] = useState<TicTacToeState>();
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
@@ -49,12 +52,12 @@ const TicTacToe = () =>
   useEffect(() => {
     if (connection) {
         connection.start()
-            .then(result => {
+            .then(async (result) => {
                 console.log('Connected!');
-
-                connection.on('ReceiveMessage', (message: any) => {
-                    console.log("Receiving state");
-                    console.log(message);
+                // TODO: Check for existing game in case of disconnect?
+                await connection.send('GetNewGameID')
+                connection.on('ReceiveMessage', (message: TicTacToeState | string) => {
+                    Guid.isGuid(message) ? setGameId(message as string) : setGameState(message as TicTacToeState)
                 });
             })
             .catch(e => console.log('Connection failed: ', e));
@@ -83,11 +86,11 @@ const TicTacToe = () =>
     }
   }
 
-  return (
-    <div>
-      <Board sendState={sendState} setBoard={() => console.log("Setting board")}/>
-    </div>
-  )
+    return (
+          <div>
+            <Board gameId={gameId} sendState={sendState} gameState={gameState}/>
+          </div>
+        )
 }
 
 export default TicTacToe;
