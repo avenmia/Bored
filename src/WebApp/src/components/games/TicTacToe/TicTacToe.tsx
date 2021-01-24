@@ -2,36 +2,7 @@ import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import { Guid } from "guid-typescript";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
-
-interface TicTacToeState
-{
-  Winner: string,
-  Cells: [][],
-  GameType: string,
-  Turn: string,
-  Status: string
-}
-
-interface TicTacToeMove
-{
-  Player: string,
-  Cell: {
-    row: number,
-    col: number
-  }
-}
-
-interface IGameState<T>
-{
-}
-
-
-interface GameMessage
-{
-  Game: string,
-  GameID: string,
-  Move: string,
-}
+import type { TicTacToeState, TicTacToeMove, GameMessage } from "./types";
 
 
 const TicTacToe = () => 

@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import Cell from "./Cell";
 import "./styles/Board.css";
+import type { TicTacToeMove } from "./types";
 
-interface TicTacToeMove
-{
-  Player: string,
-  Cell: {
-    row: number,
-    col: number
-  }
-}
+
 
 const Board = ({gameId, sendState, gameState} : any) => 
 {
@@ -17,7 +11,7 @@ const Board = ({gameId, sendState, gameState} : any) =>
   const COL_SIZE = 3;
 
   console.log("Current game state: %o", gameState);
-  
+
   const [player, setPlayer] = useState('X')
   async function updateBoard(move: TicTacToeMove)
   {
