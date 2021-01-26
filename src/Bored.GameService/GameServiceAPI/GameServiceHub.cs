@@ -43,7 +43,25 @@
         /// <returns> representing sending the new GameId to the clients.</returns>
         public Task GetNewGameID()
         {
-            return Clients.All.ReceiveMessage(Guid.NewGuid().ToString());
+            return Clients.All.ReceiveGameId(Guid.NewGuid().ToString());
+        }
+
+        /// <summary>
+        /// Function that initializes a new game.
+        /// </summary>
+        /// <param name="message">The client message.</param>
+        /// <returns>A task.</returns>
+        public Task InitializeGame(GameMessage message)
+        {
+            var gameState = gameContext.GetGameState(message.GameID);
+            if (gameState != null)
+            {
+                return Clients.All.ReceiveError("Game has already been initialized.");
+            }
+
+            var deserializedGameState = gameFactory.GameStateFactory(message.Game, gameState);
+            var serializedState = gameContext.AddGameState(message.GameID, deserializedGameState);
+            return Clients.All.ReceiveState(serializedState);
         }
 
         /// <summary>
@@ -62,12 +80,12 @@
 
             if (updatedGameState == null)
             {
-                return Clients.All.ReceiveMessage("Invalid Move");
+                return Clients.All.ReceiveError("Invalid Move");
             }
 
             var serializedState = gameContext.AddGameState(message.GameID, updatedGameState);
 
-            return Clients.All.ReceiveMessage(serializedState);
+            return Clients.All.ReceiveState(serializedState);
         }
     }
 }

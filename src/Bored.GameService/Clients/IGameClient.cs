@@ -12,6 +12,21 @@
         /// </summary>
         /// <param name="state">The serialized version of the state.</param>
         /// <returns>A task.</returns>
-        Task ReceiveMessage(string state);
+        Task ReceiveState(string state);
+
+        /// <summary>
+        /// The method for clients to receive 
+        /// the game id.
+        /// </summary>
+        /// <param name="gameId">The new game Id.</param>
+        /// <returns>A task.</returns>
+        Task ReceiveGameId(string gameId);
+
+        /// <summary>
+        /// Sends the error message back to the client.
+        /// </summary>
+        /// <param name="error">The error that occured.</param>
+        /// <returns>A task.</returns>
+        Task ReceiveError(string error);
     }
 }
