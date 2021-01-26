@@ -40,7 +40,8 @@ const Board = ({gameId, sendState, gameState} : any) =>
   {
     for(let col = 0; col < COL_SIZE; col++)
     {
-      cells.push(<Cell className="grid-item" value={getCellValue(row,col)} updateBoard={updateBoard} position={[row,col]} player={player}/>)
+      // TODO: Make key for cell less of a hack.
+      cells.push(<Cell key={row.toString() + col.toString()} className="grid-item" value={() => getCellValue(row,col)} updateBoard={updateBoard} position={[row,col]} player={player}/>)
     }
   }
 
