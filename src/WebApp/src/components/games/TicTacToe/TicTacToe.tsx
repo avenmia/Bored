@@ -26,10 +26,26 @@ const TicTacToe = () =>
             .then(async (result) => {
                 console.log('Connected!');
                 // TODO: Check for existing game in case of disconnect?
+                
                 await connection.send('GetNewGameID')
-                connection.on('ReceiveMessage', (message: TicTacToeState | string) => {
-                    Guid.isGuid(message) ? setGameId(message as string) : setGameState(message as TicTacToeState)
+
+                connection.on('ReceiveState', (message: TicTacToeState) => {
+                    setGameState(message)
                 });
+
+                connection.on('ReceiveGameId', async (message : string) => {
+                  Guid.isGuid(message) ? setGameId(message) : new Error("Invalid gameId");
+                  const initialGameMessage: GameMessage = {
+                    Game: "TicTacToe",
+                    GameID: message,
+                    Move: ""
+                  }
+                  await connection.send('InitializeGame', initialGameMessage);
+                });
+
+                connection.on('ReceiveError', (error: string) => {
+                  throw new Error(error);
+                })
             })
             .catch(e => console.log('Connection failed: ', e));
     }
@@ -45,7 +61,6 @@ const TicTacToe = () =>
 
     if (connection?.state === "Connected") {
         try {
-            console.log("Game Message is: %o", gameMessage);
             await connection.send('SendMessage', gameMessage);
         }
         catch(e) {

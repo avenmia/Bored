@@ -1,30 +1,29 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import "./styles/Cell.css"
 
-const Cell = ({value, updateBoard, position} : any) =>
+const Cell = ({value, updateBoard, position, player} : any) =>
 {
-  const [player, setPlayer] = useState(' ');
+  const [cell, setCell] = useState('');
 
-  function setCellValue(v: SyntheticEvent)
+  function setCellValue(v: MouseEvent<HTMLButtonElement>)
   {
-    if (player === ' ')
+    if (v.currentTarget.value === '')
     {
-      setPlayer(value);
+      setCell(player);
       const move = {
-        Player: value,
+        Player: player,
         Cell: {
           row: position[0],
           col: position[1]
         }
       }
-      console.log("Move is: %o", move)
       updateBoard(move);
     }
   }
 
   return (
     <button className="square" onClick={setCellValue}>
-      {player}
+      {cell}
     </button>
   )
 }

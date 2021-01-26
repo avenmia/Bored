@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import Cell from "./Cell";
 import "./styles/Board.css";
-import type { TicTacToeMove } from "./types";
+import type { TicTacToeMove, TicTacToeState } from "./types";
 
+const ROW_SIZE = 3;
+const COL_SIZE = 3;
 
-
+// When the board gets a new game state it needs to update using that
 const Board = ({gameId, sendState, gameState} : any) => 
 {
-  const ROW_SIZE = 3;
-  const COL_SIZE = 3;
-
-  console.log("Current game state: %o", gameState);
 
   const [player, setPlayer] = useState('X')
+  
   async function updateBoard(move: TicTacToeMove)
   {
     player === 'X' ? setPlayer('O') : setPlayer('X')
@@ -20,12 +19,28 @@ const Board = ({gameId, sendState, gameState} : any) =>
     return player;
   }
 
-  let cells = [];
-  for(let i = 0; i < ROW_SIZE; i++)
+  // TODO: make TicTacToe Value enum
+  function getCellValue(row: number, col: number)
   {
-    for(let j = 0; j < COL_SIZE; j++)
+    try
     {
-      cells.push(<Cell className="grid-item" value={player} updateBoard={updateBoard} position={[i,j]}/>)
+      const currentGameState = JSON.parse(gameState) as TicTacToeState
+      const cellValue = currentGameState.Cells[row][col]; 
+      return cellValue === null ? '' : cellValue === 0 ? 'X' : 'O'; 
+    }
+    catch(e)
+    {
+      console.log("Error: %o", e);
+      return '';
+    }
+  }
+
+  let cells = [];
+  for(let row = 0; row < ROW_SIZE; row++)
+  {
+    for(let col = 0; col < COL_SIZE; col++)
+    {
+      cells.push(<Cell className="grid-item" value={getCellValue(row,col)} updateBoard={updateBoard} position={[row,col]} player={player}/>)
     }
   }
 
