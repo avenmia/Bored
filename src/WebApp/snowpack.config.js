@@ -1,14 +1,23 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    public: { url: "/", static: true },
-    src: { url: "/dist" },
+    public: { url: '/', static: true },
+    src: { url: '/dist' },
   },
-  plugins: ["@snowpack/plugin-react-refresh", "@snowpack/plugin-dotenv", "@snowpack/plugin-typescript"],
-  install: [
-    /* ... */
+  plugins: [
+    '@snowpack/plugin-react-refresh',
+    '@snowpack/plugin-dotenv',
+    '@snowpack/plugin-typescript',
   ],
-  installOptions: {
+  routes: [
+    /* Enable an SPA Fallback in development: */
+    // {"match": "routes", "src": ".*", "dest": "/index.html"},
+  ],
+  optimize: {
+    /* Example: Bundle your final build: */
+    // "bundle": true,
+  },
+  packageOptions: {
     /* ... */
   },
   devOptions: {
@@ -16,11 +25,7 @@ module.exports = {
   },
   buildOptions: {
     /* ... */
-  },
-  proxy: {
-    /* ... */
-  },
-  alias: {
-    /* ... */
+    sourcemap: true,
+    watch: true
   },
 };
