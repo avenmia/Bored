@@ -72,20 +72,27 @@
         /// <returns>A task.</returns>
         public Task SendMessage(GameMessage message)
         {
-            var gameState = gameContext.GetGameState(message.GameID);
-            var deserializedGameState = gameFactory.GameStateFactory(message.Game, gameState);
-            var game = gameFactory.GameFactory(message.Game, deserializedGameState);
-            var gameMove = gameFactory.GameMoveFactory(message.Game, message.Move);
-            var updatedGameState = game.MakeMove(gameMove);
-
-            if (updatedGameState == null)
+            try
             {
-                return Clients.All.ReceiveError("Invalid Move");
+                var gameState = gameContext.GetGameState(message.GameID);
+                var deserializedGameState = gameFactory.GameStateFactory(message.Game, gameState);
+                var game = gameFactory.GameFactory(message.Game, deserializedGameState);
+                var gameMove = gameFactory.GameMoveFactory(message.Game, message.Move);
+                var updatedGameState = game.MakeMove(gameMove);
+
+                if (updatedGameState == null)
+                {
+                    return Clients.All.ReceiveError("Invalid Move");
+                }
+
+                var serializedState = gameContext.AddGameState(message.GameID, updatedGameState);
+
+                return Clients.All.ReceiveState(serializedState);
             }
-
-            var serializedState = gameContext.AddGameState(message.GameID, updatedGameState);
-
-            return Clients.All.ReceiveState(serializedState);
+            catch (Exception e)
+            {
+                return Clients.All.ReceiveError(e.Message);
+            }
         }
     }
 }
