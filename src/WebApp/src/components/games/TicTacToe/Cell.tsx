@@ -5,11 +5,10 @@ const Cell = ({value, updateBoard, position, player} : any) =>
 {
   const [cell, setCell] = useState('');
 
-  function setCellValue(v: MouseEvent<HTMLButtonElement>)
+  async function setCellValue(v: MouseEvent<HTMLButtonElement>)
   {
     if (v.currentTarget.value === '')
     {
-      setCell(player);
       const move = {
         Player: player,
         Cell: {
@@ -17,7 +16,9 @@ const Cell = ({value, updateBoard, position, player} : any) =>
           col: position[1]
         }
       }
-      updateBoard(move);
+      await updateBoard(move);
+      // TODO: Cell should be set based on result of updating the game board since the move could be invalid.
+      setCell(player);
     }
   }
 

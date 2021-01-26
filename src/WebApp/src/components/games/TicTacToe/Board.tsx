@@ -24,9 +24,13 @@ const Board = ({gameId, sendState, gameState} : any) =>
   {
     try
     {
-      const currentGameState = JSON.parse(gameState) as TicTacToeState
-      const cellValue = currentGameState.Cells[row][col]; 
-      return cellValue === null ? '' : cellValue === 0 ? 'X' : 'O'; 
+      if (gameState !== undefined)
+      {
+        const currentGameState = JSON.parse(gameState) as TicTacToeState
+        const cellValue = currentGameState.Cells[row][col]; 
+        return cellValue === null ? '' : cellValue === 0 ? 'X' : 'O'; 
+      }
+      return '';
     }
     catch(e)
     {
@@ -41,7 +45,7 @@ const Board = ({gameId, sendState, gameState} : any) =>
     for(let col = 0; col < COL_SIZE; col++)
     {
       // TODO: Make key for cell less of a hack.
-      cells.push(<Cell key={row.toString() + col.toString()} className="grid-item" value={() => getCellValue(row,col)} updateBoard={updateBoard} position={[row,col]} player={player}/>)
+      cells.push(<Cell key={row.toString() + col.toString()} className="grid-item" value={getCellValue(row,col)} updateBoard={updateBoard} position={[row,col]} player={player}/>)
     }
   }
 
